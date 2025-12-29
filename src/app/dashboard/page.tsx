@@ -38,10 +38,14 @@ export default function DashboardPage() {
     fetchUser();
     fetchFiles();
 
+    // Auto refresh every 3 seconds
+    const interval = setInterval(fetchFiles, 3000);
+
     const socket = connectSocket();
     socketRef.current = socket;
 
     return () => {
+      clearInterval(interval);
       if (socketRef.current) {
         socketRef.current.disconnect();
       }
